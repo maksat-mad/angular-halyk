@@ -36,5 +36,5 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class HCardComponent {
-  @Input() text = '';
+  @Input() text = 0;
 }

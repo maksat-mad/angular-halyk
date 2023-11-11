@@ -7,7 +7,19 @@
         <div class="menu-content__menuHeader__holder"></div>
       </div>
       <div class="content">
-        Content
+        <div class="content__header">
+          <h-button [content]="'-'" (click)="handleMinusClick()"/>
+          <div class="content__header__input-field">
+            <input [value]="radius"
+              class="content__header__input-field__input"
+              type="number"
+              (change)="handleRadiusChange($event.target)"
+              #radiusInput
+            />
+            <div class="content__header__input-field__text">km</div>
+          </div>
+          <h-button [content]="'+'" (click)="handlePlusClick()"/>
+        </div>
       </div>
     </div>
   </div>

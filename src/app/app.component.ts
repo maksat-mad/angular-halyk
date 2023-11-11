@@ -12,9 +12,12 @@ export class AppComponent implements OnInit {
   @ViewChild('mapbox', { static: true }) mapDivElement!: ElementRef;
   @ViewChild('menu', { static: true }) menu!: ElementRef;
   @ViewChild('menuHeader', { static: true }) menuHeader!: ElementRef;
+  @ViewChild('radiusInput') radiusInput!: ElementRef;
 
   map!: mapboxgl.Map;
   marker!: mapboxgl.Marker;
+
+  radius = 3;
 
   constructor(private renderer: Renderer2) {
     setTimeout(() => {
@@ -37,12 +40,16 @@ export class AppComponent implements OnInit {
       .setLngLat({ lat: 43.226956, lng: 76.944064 })
       .addTo(this.map);
 
-    this.map.on('move', () => {
-      this.marker.setLngLat(this.map ? this.map.getCenter() : { lat: 43.226956, lng: 76.944064 });
-    });
+    // this.map.on('move', () => {
+    //   this.marker.setLngLat(this.map ? this.map.getCenter() : { lat: 43.226956, lng: 76.944064 });
+    // });
 
     this.map.on('click', () => {
       this.renderer.setStyle(this.menu.nativeElement, 'height', `${150}px`);
+    });
+
+    document.addEventListener('dblclick', function (event) {
+      event.preventDefault();
     });
   }
 
@@ -57,5 +64,31 @@ export class AppComponent implements OnInit {
       newHeight = Math.min(newHeight, this.container.nativeElement.clientHeight - 100);
       this.renderer.setStyle(this.menu.nativeElement, 'height', `${newHeight}px`);
     });
+  }
+
+  handleMinusClick() {
+    if (this.radius <= 1) {
+      return;
+    }
+    this.radius--;
+  }
+
+  handlePlusClick() {
+    if (this.radius >= 99) {
+      return;
+    }
+    this.radius++;
+  }
+
+  handleRadiusChange(elementTarget: any) {
+    let newRadius = +elementTarget.value;
+    if (newRadius <= 1) {
+      newRadius = 1;
+    }
+    if (newRadius > 99) {
+      newRadius = 99;
+    }
+    this.radius = newRadius;
+    this.radiusInput.nativeElement.value = newRadius;
   }
 }

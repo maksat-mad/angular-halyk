@@ -1,7 +1,14 @@
+@mixin font {
+  color: #000;
+  font-family: Open Sans;
+  font-size: 22px;
+  font-weight: 400;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 54px);
   width: 100vw;
   position: relative;
 
@@ -50,5 +57,45 @@
 }
 
 .content {
+  margin-top: 10px;
   padding: 20px;
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    &__input-field {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &__input {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        @include font;
+        text-align: center;
+        width: 35px;
+        font-size: 25px;
+      }
+
+      &__text {
+        @include font;
+      }
+    }
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

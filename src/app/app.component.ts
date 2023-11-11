@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
+import { Loader } from "@googlemaps/js-api-loader";
 import * as Hammer from 'hammerjs';
 
 @Component({
@@ -9,15 +9,16 @@ import * as Hammer from 'hammerjs';
 })
 export class AppComponent implements OnInit {
   @ViewChild('container', { static: true }) container!: ElementRef;
-  @ViewChild('mapbox', { static: true }) mapDivElement!: ElementRef;
   @ViewChild('menu', { static: true }) menu!: ElementRef;
   @ViewChild('menuHeader', { static: true }) menuHeader!: ElementRef;
   @ViewChild('radiusInput') radiusInput!: ElementRef;
 
-  map!: mapboxgl.Map;
-  marker!: mapboxgl.Marker;
+  @ViewChild('googleMap', { static: true }) mapDivElement!: ElementRef;
 
-  radius = 3;
+  map!: google.maps.Map;
+  cityCircle?: google.maps.Circle;
+
+  radius = 1;
 
   constructor(private renderer: Renderer2) {
     setTimeout(() => {
@@ -26,26 +27,32 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.map = new mapboxgl.Map({
-      accessToken: 'pk.eyJ1IjoiYWxiZXJ0b2FsZWphbmRybzEwIiwiYSI6ImNsaTIydm9iNjEyNnkzc21iY2t2djkwcGoifQ.FftaCYWGwc83vgJcHPAfDA',
-      container: this.mapDivElement.nativeElement,
-      style: 'mapbox://styles/mapbox/streets-v12',
-      center: { lat: 43.226956, lng: 76.944064 },
-      zoom: 14
+    const loader = new Loader({
+      apiKey: "AIzaSyBp3KwDMuz3N_LAAe1ZG77zl9cLCLNZ-po"
     });
 
-    this.map.addControl(new mapboxgl.NavigationControl());
+    loader.load().then(async () => {
+      const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+      this.map = new Map(this.mapDivElement.nativeElement, {
+        center: { lat: 43.226956, lng: 76.944064 },
+        zoom: 20,
+      });
 
-    this.marker =  new mapboxgl.Marker({ color: 'red' })
-      .setLngLat({ lat: 43.226956, lng: 76.944064 })
-      .addTo(this.map);
+      const marker = new google.maps.Marker({
+        position: { lat: 43.226956, lng: 76.944064 },
+        map: this.map,
+        icon: {
+          url: 'assets/mappin.svg',
+          scaledSize: new google.maps.Size(49, 42),
+        },
+        draggable: false
+      });
 
-    // this.map.on('move', () => {
-    //   this.marker.setLngLat(this.map ? this.map.getCenter() : { lat: 43.226956, lng: 76.944064 });
-    // });
+      this.map.addListener("click", () => {
+        this.renderer.setStyle(this.menu.nativeElement, 'height', `${150}px`);
+      });
 
-    this.map.on('click', () => {
-      this.renderer.setStyle(this.menu.nativeElement, 'height', `${150}px`);
+      this.addCircle();
     });
 
     document.addEventListener('dblclick', function (event) {
@@ -71,6 +78,7 @@ export class AppComponent implements OnInit {
       return;
     }
     this.radius--;
+    this.addCircle();
   }
 
   handlePlusClick() {
@@ -78,6 +86,7 @@ export class AppComponent implements OnInit {
       return;
     }
     this.radius++;
+    this.addCircle();
   }
 
   handleRadiusChange(elementTarget: any) {
@@ -90,5 +99,26 @@ export class AppComponent implements OnInit {
     }
     this.radius = newRadius;
     this.radiusInput.nativeElement.value = newRadius;
+    this.addCircle();
+  }
+
+  addCircle() {
+    if (this.cityCircle) {
+      this.cityCircle.setMap(null);
+    }
+
+    this.cityCircle = new google.maps.Circle({
+      strokeColor: "#0cc582B3",
+      strokeOpacity: 0.44,
+      strokeWeight: 2,
+      fillColor: "#51b8d9CC",
+      fillOpacity: 0.4,
+      map: this.map,
+      center: { lat: 43.226956, lng: 76.944064 },
+      radius: this.radius * 1000,
+    });
+
+    const circleBounds = this.cityCircle.getBounds()!;
+    this.map.fitBounds(circleBounds);
   }
 }

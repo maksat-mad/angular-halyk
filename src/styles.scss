@@ -2,6 +2,6 @@ body {
   margin: 0;
 }
 
-.mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl-bottom-right, .mapboxgl-ctrl-compass {
-  display: none !important;
+.gm-svpc, .gm-fullscreen-control, .gmnoprint {
+  display: none;
 }

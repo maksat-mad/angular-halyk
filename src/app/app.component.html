@@ -1,5 +1,5 @@
 <div #container class="container">
-  <div #mapbox class="map-container"></div>
+  <div #googleMap class="map-container"></div>
 
   <div #menu class="bottom-menu">
     <div class="menu-content">
@@ -16,7 +16,7 @@
               (change)="handleRadiusChange($event.target)"
               #radiusInput
             />
-            <div class="content__header__input-field__text">km</div>
+            <div class="content__header__input-field__text">км</div>
           </div>
           <h-button [content]="'+'" (click)="handlePlusClick()"/>
         </div>

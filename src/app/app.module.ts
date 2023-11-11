@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HButtonComponent } from './components/h-button.component';
+import { HCardComponent } from './components/h-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HButtonComponent
+    HButtonComponent,
+    HCardComponent
   ],
   imports: [
     BrowserModule,

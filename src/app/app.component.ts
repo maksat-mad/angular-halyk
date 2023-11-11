@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   @ViewChild('googleMap', { static: true }) mapDivElement!: ElementRef;
 
   map!: google.maps.Map;
-  cityCircle?: google.maps.Circle;
+  cityCircle!: google.maps.Circle;
 
   radius = 1;
 
@@ -35,7 +35,22 @@ export class AppComponent implements OnInit {
       const { Map } = await google.maps.importLibrary("maps") as google.maps.MapsLibrary;
       this.map = new Map(this.mapDivElement.nativeElement, {
         center: { lat: 43.226956, lng: 76.944064 },
-        zoom: 20,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_TOP,
+        },
+      });
+
+      this.cityCircle = new google.maps.Circle({
+        strokeColor: "#0cc582B3",
+        strokeOpacity: 0.44,
+        strokeWeight: 2,
+        fillColor: "#51b8d9CC",
+        fillOpacity: 0.4,
+        map: this.map,
+        center: { lat: 43.226956, lng: 76.944064 },
+        radius: 1000,
+        clickable: false
       });
 
       const marker = new google.maps.Marker({
@@ -116,6 +131,7 @@ export class AppComponent implements OnInit {
       map: this.map,
       center: { lat: 43.226956, lng: 76.944064 },
       radius: this.radius * 1000,
+      clickable: false
     });
 
     const circleBounds = this.cityCircle.getBounds()!;

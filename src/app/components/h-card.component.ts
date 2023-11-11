@@ -3,9 +3,10 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'h-card',
   template: `
-  <div class="h-card">
-    <img class="h-card__icon" src="assets/tenge.svg" alt="тг"/>
-    <div class="h-card__text">{{ text }}</div>
+  <div class="h-card" [style.backgroundColor]="bgColorsMap.get(bgColor)">
+    <img *ngIf="hasIcon" class="h-card__icon" src="assets/tenge.svg" alt="тг"/>
+    <div *ngIf="hasIcon" class="h-card__text">{{ text.substring(0, text.length - 3) }} тыс.</div>
+    <div *ngIf="!hasIcon" class="h-card__text">{{ text }}</div>
   </div>
   `,
   styles: [
@@ -18,18 +19,18 @@ import { Component, Input } from '@angular/core';
         width: 150px;
         height: 40px;
         border-radius: 12px;
-        background: rgba(12, 197, 130, 0.10);
 
         &__text {
           color: #000;
           font-family: Open Sans;
-          font-size: 20px;
+          font-size: 15px;
           font-weight: 600;
           letter-spacing: 1px;
+          text-align: center;
         }
 
         &__icon {
-          height: 17px;
+          height: 12px;
           margin-bottom: 4px;
         }
       }
@@ -37,5 +38,13 @@ import { Component, Input } from '@angular/core';
   ]
 })
 export class HCardComponent {
-  @Input() text = 0;
+  @Input() text: string = '';
+  @Input() bgColor: 'green' | 'grey' | 'white' = 'white';
+  @Input() hasIcon = false;
+
+  bgColorsMap = new Map<string, string>([
+    ['green', '#0CC5821A'],
+    ['grey', '#EEEEEE'],
+    ['white', '#FFFFFF']
+  ]);
 }

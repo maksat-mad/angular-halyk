@@ -89,33 +89,13 @@
   }
 
   &__body {
-    margin-top: 20px;
-
-    &__title {
-      margin: 0 0 5px 0;
-      color: #01B071;
-      font-family: Open Sans;
-      font-size: 17px;
-      font-weight: 600;
-      text-align: center;
-    }
+    margin-top: 40px;
 
     &__field {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-
-      &__header-text {
-        color: #000;
-        text-align: center;
-        font-family: Open Sans;
-        font-size: 20px;
-        font-weight: 600;
-        letter-spacing: -0.24px;
-        padding: 5px;
-        margin: 0;
-      }
+      margin-bottom: 7px;
     }
   }
 }
@@ -133,7 +113,7 @@ input[type=number] {
 }
 
 .col {
-  width: 45%;
+  width: 32%;
   display: flex;
   justify-content: center;
   align-items: center;

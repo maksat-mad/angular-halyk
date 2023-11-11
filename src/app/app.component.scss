@@ -8,7 +8,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 100px);
+  height: 100vh;
   width: 100vw;
   position: relative;
 
@@ -32,16 +32,18 @@
     .menu-content {
       position: relative;
       height: 100%;
-      overflow: hidden;
+      overflow: auto;
 
       &__menuHeader {
-        position: absolute;
+        position: sticky;
         top: 0;
         height: 30px;
         width: 100vw;
         display: flex;
         align-items: top;
         justify-content: center;
+        cursor: pointer;
+        background-color: white;
 
         &__holder {
           margin-top: 8px;
@@ -88,12 +90,21 @@
 
   &__body {
     margin-top: 20px;
-    overflow: auto;
+
+    &__title {
+      margin: 0 0 5px 0;
+      color: #01B071;
+      font-family: Open Sans;
+      font-size: 17px;
+      font-weight: 600;
+      text-align: center;
+    }
 
     &__field {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 10px;
 
       &__header-text {
         color: #000;

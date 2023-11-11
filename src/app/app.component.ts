@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
         zoomControlOptions: {
           position: google.maps.ControlPosition.RIGHT_TOP,
         },
+        gestureHandling: 'greedy'
       });
 
       this.cityCircle = new google.maps.Circle({
@@ -63,8 +64,9 @@ export class AppComponent implements OnInit {
         draggable: false
       });
 
-      this.map.addListener("click", () => {
+      this.map.addListener("click", (event: any) => {
         this.renderer.setStyle(this.menu.nativeElement, 'height', `${150}px`);
+        event.preventDefault();
       });
 
       this.addCircle();

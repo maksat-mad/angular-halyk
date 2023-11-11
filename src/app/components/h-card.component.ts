@@ -23,13 +23,14 @@ import { Component, Input } from '@angular/core';
         &__text {
           color: #000;
           font-family: Open Sans;
-          font-size: 18px;
+          font-size: 20px;
           font-weight: 600;
           letter-spacing: 1px;
         }
 
         &__icon {
-          height: 21px;
+          height: 17px;
+          margin-bottom: 4px;
         }
       }
     `

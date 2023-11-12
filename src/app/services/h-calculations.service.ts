@@ -10,7 +10,7 @@ export class HCalculationsService {
   http = inject(HttpClient);
 
   getHModels(radius: number): Observable<HModel[]> {
-    const url = "https://halyk-oiy-production.up.railway.app/radius/average";
+    const url = "https://halyk-oiy-production.up.railway.app/api/radius/average";
 
     const params = { radius: radius.toString() };
 

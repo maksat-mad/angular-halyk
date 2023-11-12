@@ -1,6 +1,9 @@
+import { HCalculationsService } from './services/h-calculations.service';
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { Loader } from "@googlemaps/js-api-loader";
 import * as Hammer from 'hammerjs';
+import { HModel } from './model/h-model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +20,11 @@ export class AppComponent implements OnInit {
 
   map!: google.maps.Map;
   cityCircle!: google.maps.Circle;
+  calculations!: Observable<HModel[]>;
 
   radius = 1;
 
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2, private service: HCalculationsService) {
     setTimeout(() => {
       this.initHammer();
     }, 1000)
@@ -75,6 +79,8 @@ export class AppComponent implements OnInit {
     document.addEventListener('dblclick', function (event) {
       event.preventDefault();
     });
+
+    this.calculations = this.service.getHModels(1);
   }
 
   initHammer() {
@@ -96,6 +102,7 @@ export class AppComponent implements OnInit {
     }
     this.radius--;
     this.addCircle();
+    this.calculations = this.service.getHModels(this.radius);
   }
 
   handlePlusClick() {
@@ -104,6 +111,7 @@ export class AppComponent implements OnInit {
     }
     this.radius++;
     this.addCircle();
+    this.calculations = this.service.getHModels(this.radius);
   }
 
   handleRadiusChange(elementTarget: any) {
@@ -117,6 +125,7 @@ export class AppComponent implements OnInit {
     this.radius = newRadius;
     this.radiusInput.nativeElement.value = newRadius;
     this.addCircle();
+    this.calculations = this.service.getHModels(this.radius);
   }
 
   addCircle() {

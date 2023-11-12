@@ -12,7 +12,7 @@ export class HCalculationsService {
   getHModels(radius: number): Observable<HModel[]> {
     const url = "https://halyk-oiy-production.up.railway.app/api/radius/average";
 
-    const params = { radius: radius.toString() };
+    const params = { distance: radius.toString() };
 
     return this.http.get<HModel[]>(url, { params });
   }

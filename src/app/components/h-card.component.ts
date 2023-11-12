@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'h-card',
   template: `
   <div class="h-card" [style.backgroundColor]="bgColorsMap.get(bgColor)">
     <img *ngIf="hasIcon" class="h-card__icon" src="assets/tenge.svg" alt="тг"/>
-    <div *ngIf="hasIcon" class="h-card__text">{{ text.substring(0, 3) }} тыс.</div>
+    <div *ngIf="hasIcon" class="h-card__text">{{ value }} тыс.</div>
     <div *ngIf="!hasIcon" class="h-card__text">{{ text }}</div>
   </div>
   `,
@@ -37,14 +37,19 @@ import { Component, Input } from '@angular/core';
     `
   ]
 })
-export class HCardComponent {
+export class HCardComponent implements OnInit {
   @Input() text: string = '';
   @Input() bgColor: 'green' | 'grey' | 'white' = 'white';
   @Input() hasIcon = false;
+  value = 0;
 
   bgColorsMap = new Map<string, string>([
     ['green', '#0CC5821A'],
     ['grey', '#EEEEEE'],
     ['white', '#FFFFFF']
   ]);
+
+  ngOnInit() {
+      this.value = Math.round(+this.text / 1000);
+  }
 }

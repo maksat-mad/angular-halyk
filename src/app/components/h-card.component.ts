@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   template: `
   <div class="h-card" [style.backgroundColor]="bgColorsMap.get(bgColor)">
     <img *ngIf="hasIcon" class="h-card__icon" src="assets/tenge.svg" alt="тг"/>
-    <div *ngIf="hasIcon" class="h-card__text">{{ text.substring(0, text.length - 3) }} тыс.</div>
+    <div *ngIf="hasIcon" class="h-card__text">{{ text.substring(0, 3) }} тыс.</div>
     <div *ngIf="!hasIcon" class="h-card__text">{{ text }}</div>
   </div>
   `,
